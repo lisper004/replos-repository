@@ -143,13 +143,32 @@
          ((_ args ...)
           (begin body ...)))))))
 
+
+;; ============================================================
+;; PIPE
+;; ============================================================
+(define-syntax pp
+  (syntax-rules ()
+    ((pp)
+     #t)
+    ((pp expr)
+     expr)
+    ((pp expr1 expr2 ...)
+     (let ((result expr1))
+       (pp (proc-> result expr2) ...)))))
+
+(define (proc-> input proc)
+  (if (procedure? proc)
+      (proc input)
+      (error ">> pp: expected procedure, got" proc)))
+
 ;; ============================================================
 ;; 13. Welcome message
 ;; ============================================================
 
 (display "
 ╔═══════════════════════════════════════════╗
-║     LisperLisp v0.1 loaded!               ║
+║     LisperLisp v0.2 loaded!               ║
 ║                                           ║
 ║  Commands:                                ║
 ║    (defic ((name) body...))               ║
@@ -161,6 +180,7 @@
 ║    (loop-with (i n) body...)              ║
 ║    (loop-over var in list body...)        ║
 ║    (while test body...)                   ║
+║    (pp (command) (command))               ║
 ║    (wait seconds)                         ║
 ╚═══════════════════════════════════════════╝
 ")
