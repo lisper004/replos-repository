@@ -1,4 +1,4 @@
-;; JUST FOR TEST
+;; NOT WORKING YET
 
 (use-modules (ice-9 rdelim)
              (ice-9 regex)
